@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import './App.css'
+import marked from 'marked'
+import DOMPurify from 'dompurify'
 
 function App() {
+  const [text, setText] = useState('')
+  const [markedText, setMarkedText] = useState('')
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setText(e.currentTarget.value)
+    setMarkedText(DOMPurify.sanitize(marked(e.currentTarget.value)))
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="editor-preview-container">
+        <div className="editor-container">
+          <textarea
+            className="editor-textarea"
+            value={text}
+            onChange={handleChange}
+            placeholder={'memo'}
+          />
+        </div>
+        <div className="preview-container">
+          <div
+            className="preview-mirror"
+            dangerouslySetInnerHTML={{ __html: markedText }}
+          />
+        </div>
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
