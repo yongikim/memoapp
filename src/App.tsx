@@ -1,36 +1,17 @@
 import React, { useState } from 'react'
 import './App.css'
-import marked from 'marked'
-import DOMPurify from 'dompurify'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import Notes from 'notes/Notes'
+import NewNote from 'notes/NewNote'
 
-function App() {
-  const [text, setText] = useState('')
-  const [markedText, setMarkedText] = useState('')
-
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.currentTarget.value)
-    setMarkedText(DOMPurify.sanitize(marked(e.currentTarget.value)))
-  }
-
+function App(): JSX.Element {
   return (
-    <div className="App">
-      <div className="editor-preview-container">
-        <div className="editor-container">
-          <textarea
-            className="editor-textarea"
-            value={text}
-            onChange={handleChange}
-            placeholder={'memo'}
-          />
-        </div>
-        <div className="preview-container">
-          <div
-            className="preview-mirror"
-            dangerouslySetInnerHTML={{ __html: markedText }}
-          />
-        </div>
-      </div>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Notes} />
+        <Route exact path="/new" component={NewNote} />
+      </Switch>
+    </Router>
   )
 }
 
