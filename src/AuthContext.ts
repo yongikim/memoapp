@@ -3,7 +3,7 @@ export const authInitState = {
   loading: true,
 }
 
-interface AuthState {
+export interface AuthState {
   auth: boolean
   loading: boolean
 }

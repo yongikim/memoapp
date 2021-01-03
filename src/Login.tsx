@@ -1,17 +1,10 @@
 import axios from 'axios'
 import { useState, useContext } from 'react'
-import { Link } from 'react-router-dom'
 import { AuthContext } from 'App'
-
-type UsersResponse = User[]
-
-interface User {
-  name: string
-}
+import { Redirect } from 'react-router-dom'
 
 function Login(): JSX.Element {
   const authContext = useContext(AuthContext)
-  const [userNames, setUserNames] = useState<string[]>([])
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
@@ -57,46 +50,41 @@ function Login(): JSX.Element {
     responseType: 'json',
   })
 
-  const handleUsersButtonClick = (): void => {
-    const url = '/users'
-    const config = {
-      withCredentials: true,
-    }
-
-    client.get<UsersResponse>(url, config).then((res) => {
-      const users = res.data
-      const userNames = users.map((user) => user.name)
-
-      setUserNames(userNames)
-    })
+  if (authContext.state.auth) {
+    return <Redirect to="/" />
   }
 
   return (
-    <>
-      <p>{authContext.state.auth ? 'Logged in.' : 'Please login.'}</p>
-      <form onSubmit={handleSubmit}>
-        <input
-          name="email"
-          type="text"
-          value={email}
-          placeholder="email"
-          onChange={handleEmailChange}
-        />
-        <input
-          name="password"
-          type="text"
-          value={password}
-          placeholder="password"
-          onChange={handlePasswordChange}
-        />
-        <button type="submit">login</button>
-      </form>
-      <div>
-        <button onClick={handleUsersButtonClick}>Users</button>
-        <p>{userNames}</p>
+    <div className="login-page">
+      <div className="login-container">
+        <h1>MemoApp</h1>
+        <div className="login-form">
+          <form onSubmit={handleSubmit}>
+            <div>
+              <input
+                name="email"
+                type="email"
+                value={email}
+                placeholder="email"
+                onChange={handleEmailChange}
+              />
+            </div>
+            <div>
+              <input
+                name="password"
+                type="password"
+                value={password}
+                placeholder="password"
+                onChange={handlePasswordChange}
+              />
+            </div>
+            <div>
+              <button type="submit">login</button>
+            </div>
+          </form>
+        </div>
       </div>
-      <Link to={'/'}>link</Link>
-    </>
+    </div>
   )
 }
 
