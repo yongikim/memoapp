@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import marked from 'marked'
 import DOMPurify from 'dompurify'
 
@@ -10,6 +10,15 @@ function NewNote(): JSX.Element {
     setText(e.currentTarget.value)
     setMarkedText(DOMPurify.sanitize(marked(e.currentTarget.value)))
   }
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      console.log(`save ${text}`)
+    }, 1000)
+    return () => {
+      clearTimeout(timeoutId)
+    }
+  }, [text])
 
   return (
     <div className="editor-preview-container">
