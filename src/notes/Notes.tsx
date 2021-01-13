@@ -1,33 +1,45 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import NotesService from 'services/NotesService'
+import Note from 'models/Note'
+import NoteItem from 'notes/Note'
 
 function Notes(): JSX.Element {
-  const [notes, setNotes] = useState<string[]>([])
+  const [notes, setNotes] = useState<Note[]>([])
 
   useEffect(() => {
-    const fetchData = async () => {
-      const result: string[] = []
-
-      setNotes(result)
+    const fetchNotes = async () => {
+      NotesService.listNotes()
+        .then((res) => {
+          setNotes(res.data)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     }
 
-    fetchData()
+    fetchNotes()
   }, [])
 
   return (
     <>
-      <ul>
-        <li>Note 1</li>
-        <li>Note 2</li>
-        <li>Note 3</li>
-      </ul>
-      <p>{notes.length} notes fetched</p>
-      <ul>
-        {notes.map((note) => (
-          <li>{note}</li>
-        ))}
-      </ul>
-      <Link to={'new'}>New note</Link>
+      <section>
+        <p>{notes.length} notes fetched</p>
+      </section>
+
+      <section>
+        <Link to={'new'}>New note</Link>
+      </section>
+
+      <section>
+        <ul>
+          {notes.map((note) => (
+            <li key={note.id}>
+              <NoteItem note={note} />
+            </li>
+          ))}
+        </ul>
+      </section>
     </>
   )
 }
