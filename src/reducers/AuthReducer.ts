@@ -1,4 +1,4 @@
-import { AuthAction, AuthState } from 'AuthContext'
+import { AuthAction, AuthState } from 'contexts/AuthContext'
 
 export function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
