@@ -1,12 +1,12 @@
 import { ReactNode, useContext } from 'react'
 import { Redirect } from 'react-router-dom'
-import { AuthContext } from 'App'
+import { AuthContext } from 'contexts/AuthContext'
 
 interface AuthProps {
   children?: ReactNode
 }
 
-function Auth(props: AuthProps): JSX.Element {
+export function Private(props: AuthProps): JSX.Element {
   const authContext = useContext(AuthContext)
 
   if (authContext.state.loading) {
@@ -17,5 +17,3 @@ function Auth(props: AuthProps): JSX.Element {
 
   return <>{authContext.state.auth ? children : <Redirect to={'/login'} />}</>
 }
-
-export default Auth

@@ -1,18 +1,4 @@
-export const authInitState = {
-  auth: false,
-  loading: true,
-}
-
-export interface AuthState {
-  auth: boolean
-  loading: boolean
-}
-
-type AuthActionType = 'LOADING' | 'AUTHORIZED' | 'UNAUTHORIZED'
-
-export interface AuthAction {
-  type: AuthActionType
-}
+import { AuthAction, AuthState } from 'AuthContext'
 
 export function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {

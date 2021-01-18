@@ -1,7 +1,7 @@
-import axios from 'axios'
 import { useState, useContext } from 'react'
-import { AuthContext } from 'App'
 import { Redirect } from 'react-router-dom'
+import AuthService from 'services/AuthService'
+import { AuthContext } from 'contexts/AuthContext'
 
 function Login(): JSX.Element {
   const authContext = useContext(AuthContext)
@@ -11,17 +11,7 @@ function Login(): JSX.Element {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
     e.preventDefault()
 
-    const url = '/auth'
-    const data = {
-      email,
-      password,
-    }
-    const config = {
-      withCredentials: true,
-    }
-
-    client
-      .post(url, data, config)
+    AuthService.login({ email, password })
       .then(() => {
         authContext.dispatch({ type: 'AUTHORIZED' })
       })
@@ -32,6 +22,7 @@ function Login(): JSX.Element {
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
     e.preventDefault()
+
     setEmail(e.currentTarget.value)
   }
 
@@ -39,16 +30,9 @@ function Login(): JSX.Element {
     e: React.ChangeEvent<HTMLInputElement>,
   ): void => {
     e.preventDefault()
+
     setPassword(e.currentTarget.value)
   }
-
-  const client = axios.create({
-    baseURL: process.env['REACT_APP_API_BASE_URL'],
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    responseType: 'json',
-  })
 
   if (authContext.state.auth) {
     return <Redirect to="/" />
