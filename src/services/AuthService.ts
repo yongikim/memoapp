@@ -1,4 +1,5 @@
-import axios, { AxiosResponse } from 'axios'
+import { AxiosResponse } from 'axios'
+import client from 'services/BaseClient'
 
 const getUserIdUrl = '/auth/user_id'
 const loginUrl = '/auth'
@@ -9,21 +10,12 @@ interface LoginData {
 }
 
 class AuthService {
-  client = axios.create({
-    baseURL: process.env['REACT_APP_API_BASE_URL'],
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    responseType: 'json',
-    withCredentials: true,
-  })
-
   getUserId = (): Promise<AxiosResponse> => {
-    return this.client.get(getUserIdUrl)
+    return client.get(getUserIdUrl)
   }
 
   login = (data: LoginData): Promise<AxiosResponse> => {
-    return this.client.post(loginUrl, data)
+    return client.post(loginUrl, data)
   }
 }
 
