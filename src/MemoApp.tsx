@@ -6,6 +6,7 @@ import { Private } from 'Private'
 import Login from 'Login'
 import { AuthContext } from 'contexts/AuthContext'
 import AuthService from 'services/AuthService'
+import NoteEditorContainer from 'containers/NoteEditorContainer'
 
 function MemoApp(): JSX.Element {
   const authContext = useContext(AuthContext)
@@ -31,8 +32,13 @@ function MemoApp(): JSX.Element {
           <Login />
         </Route>
         <Private>
-          <Route exact path="/new" component={NewNote} />
+          <Route exact path="/notes/new" component={NewNote} />
           <Route exact path="/" component={Notes} />
+          <Route
+            exact
+            path="/notes/:id(\d+)/edit"
+            component={NoteEditorContainer}
+          />
         </Private>
       </Switch>
     </Router>

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import NotesService from 'services/NotesService'
 import Note from 'models/Note'
-import NoteItem from 'notes/Note'
+import NoteItem from 'notes/NoteItem'
 
 function Notes(): JSX.Element {
   const [notes, setNotes] = useState<Note[]>([])
@@ -28,7 +28,7 @@ function Notes(): JSX.Element {
       </section>
 
       <section>
-        <Link to={'new'}>New note</Link>
+        <Link to={'notes/new'}>New note</Link>
       </section>
 
       <section>

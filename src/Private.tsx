@@ -9,10 +9,6 @@ interface AuthProps {
 export function Private(props: AuthProps): JSX.Element {
   const authContext = useContext(AuthContext)
 
-  if (authContext.state.loading) {
-    return <p>loading...</p>
-  }
-
   const { children } = props
 
   return <>{authContext.state.auth ? children : <Redirect to={'/login'} />}</>
